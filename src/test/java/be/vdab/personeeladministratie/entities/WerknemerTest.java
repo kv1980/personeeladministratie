@@ -34,4 +34,10 @@ public class WerknemerTest {
 		werknemer.verhoogSalaris(BigDecimal.valueOf(100));
 		assertEquals(BigDecimal.valueOf(2100),werknemer.getSalaris());
 	}
+	
+	@Test
+	public void rijksregisternummer_is_goed_getest() {
+		werknemer.wijzigRijksregisternr(80061327389L);
+		assertEquals(80061327389L,werknemer.getRijksregisternr());
+	}
 }

@@ -32,6 +32,7 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import be.vdab.personeeladministratie.adapters.LocalDateAdapter;
+import be.vdab.personeeladministratie.constraints.Rijksregisternr;
 
 @Entity
 @Table(name = "werknemers")
@@ -52,7 +53,9 @@ public class Werknemer {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "chefid")
 	private Werknemer chef;
-	// private JobTitel jobtitel;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "jobtitelid")
+	private Jobtitel jobtitel;
 	@NumberFormat(style = Style.NUMBER)
 	@NotNull
 	@Min(1)
@@ -67,7 +70,7 @@ public class Werknemer {
 	@XmlJavaTypeAdapter(value = LocalDateAdapter.class)
 	private LocalDate geboorte;
 	@NotNull
-	// @Rijksregisternr
+	@Rijksregisternr
 	@Column(unique = true)
 	private long rijksregisternr;
 	@Version
