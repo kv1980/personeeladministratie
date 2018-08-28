@@ -1,13 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang='nl' xmlns:th='http://www.thymeleaf.org'>
 <head th:replace="fragments::head(title='Inloggen')"></head>
 <body>
-	<h1>Inloggen</h1>
-	<form th:action='@{/login}' method='post'>
-		<label>Gebruikersnaam:<input name='username' required autofocus></label>
-		<label>Paswoord:<input name='password' type='password' required></label>
+	<form th:action='@{/login}' method='post' id='login'>
+		<input name='username' placeholder='login' required autofocus>
+		<input name='password' placeholder='paswoord' type='password' required>
 		<input type='submit' value='Inloggen'>
 	</form>
-	<div th:if='${param.error != null}' class='fout'>U gaf een verkeerde login of paswoord op.</div>
+	<div th:if='${param.error != null}' class='fout'>Uw gebruikersnaam en/of paswoord waren niet correct.</div>
 </body>
 </html>

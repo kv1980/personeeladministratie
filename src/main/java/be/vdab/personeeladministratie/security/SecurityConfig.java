@@ -10,23 +10,25 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 
-@EnableGlobalMethodSecurity(prePostEnabled = true) 
+//@EnableGlobalMethodSecurity(prePostEnabled = true) 
 @EnableWebSecurity
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String USERS_BY_EMAIL =
 			"select email as username, paswoord as password, 1 "+
 			"from werknemers where email=?";
 	private static final String AUTHORITIES_BY_EMAIL =
-			"select email as username, 'gebruiker' "+
-			"from werknemers where email=?";
+			"select werknemers.email as username, rollen.naam as authorities "+
+			"from werknemers "+
+			"inner join werknemersrollen on werknemers.id = werknemersrollen.werknemerid "+
+			"inner join rollen on rollen.id = werknemersrollen.rolid "+
+			"where werknemers.email= ?";
 
 	@Bean
 	JdbcDaoImpl jdbcDaoImpl(DataSource dataSource) {
 		JdbcDaoImpl impl = new JdbcDaoImpl();
 		impl.setDataSource(dataSource);
-		//hieronder enkel methods om bestaande tabellen naar de vereiste tabellen om te zetten
 		impl.setUsersByUsernameQuery(USERS_BY_EMAIL);
-		impl.setAuthoritiesByUsernameQuery(AUTHORITIES_BY_EMAIL);;
+		impl.setAuthoritiesByUsernameQuery(AUTHORITIES_BY_EMAIL);
 		return impl;
 	}
 
@@ -40,8 +42,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.formLogin().loginPage("/login")
-						.and().authorizeRequests()
+		http.formLogin().loginPage("/login").and().authorizeRequests()
 						.mvcMatchers("/", "/login").permitAll()
 						.mvcMatchers("/**").authenticated();
 		//http.httpBasic(); // om ook niet-browser REST-clients basis authentication mogelijk te maken
