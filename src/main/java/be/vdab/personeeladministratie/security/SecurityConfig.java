@@ -13,8 +13,11 @@ import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 @EnableGlobalMethodSecurity(prePostEnabled = true) 
 @EnableWebSecurity
 class SecurityConfig extends WebSecurityConfigurerAdapter {
-	private static final String USERS_BY_USERNAME =
-			"select email as username, paswoord as password"+
+	private static final String USERS_BY_EMAIL =
+			"select email as username, paswoord as password, 1 "+
+			"from werknemers where email=?";
+	private static final String AUTHORITIES_BY_EMAIL =
+			"select email as username, 'gebruiker' "+
 			"from werknemers where email=?";
 
 	@Bean
@@ -22,7 +25,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 		JdbcDaoImpl impl = new JdbcDaoImpl();
 		impl.setDataSource(dataSource);
 		//hieronder enkel methods om bestaande tabellen naar de vereiste tabellen om te zetten
-		impl.setUsersByUsernameQuery(USERS_BY_USERNAME);
+		impl.setUsersByUsernameQuery(USERS_BY_EMAIL);
+		impl.setAuthoritiesByUsernameQuery(AUTHORITIES_BY_EMAIL);;
 		return impl;
 	}
 
