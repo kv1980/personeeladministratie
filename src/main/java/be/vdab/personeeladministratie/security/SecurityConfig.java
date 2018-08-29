@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 @EnableWebSecurity
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String USERS_BY_EMAIL =
-			"select email as username, paswoord as password, 1 "+
+			"select email as username, paswoord as password, 1 as enabled "+
 			"from werknemers where email=?";
 	private static final String AUTHORITIES_BY_EMAIL =
 			"select werknemers.email as username, rollen.naam as authorities "+
