@@ -50,7 +50,7 @@ public class Werknemer {
 	@NotBlank
 	@Email
 	private String email;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "chefid")
 	private Werknemer chef;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
