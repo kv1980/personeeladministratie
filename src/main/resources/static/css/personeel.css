@@ -1,11 +1,11 @@
 
 body {
 	background-color: #fff;
+	margin-left:30px;
     font-family: "Fira Sans",sans-serif;
     font-size: 16px;
     line-height: 1.25;
     color: #474747;
-
 }
 
 #menu {
@@ -24,7 +24,6 @@ body {
 	text-decoration: none;
 	text-align: center;
 	color: white;
-
 }
 
 #menu li a:hover {
@@ -59,6 +58,10 @@ body {
 #login input[type=submit]:hover {
 	background-color: #191970;
 	color: white;
+}
+
+#werknemersdata {
+	margin-left: 10px;
 }
 
 #werknemersdata dd {
