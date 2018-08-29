@@ -2,24 +2,24 @@
 <html lang='nl' xmlns:th='http://www.thymeleaf.org'>
 <head th:replace="fragments::head(title='Werknemershi&euml;rarchie')"></head>
 <body>
-	<h1 th:text='|${president.voornaam} ${president.familienaam}|'></h1>
-	<dl>
+	<h1 th:text='|${werknemer.voornaam} ${werknemer.familienaam}|'></h1>
+	<dl id="werknemersdata">
 		<dt>Voornaam</dt>
-			<dd th:text='${president.voornaam}'></dd>
+			<dd th:text='${werknemer.voornaam}'></dd>
 		<dt>Familienaam</dt>
-			<dd th:text='${president.familienaam}'></dd>
+			<dd th:text='${werknemer.familienaam}'></dd>
 		<dt>Email adres</dt>
-			<dd th:text='${president.email}'></dd>
-		<dt th:if='${president.chef != null}'>Chef</dt>
-			<dd th:if='${president.chef != null}' th:text='|${president.chef.voornaam} ${president.chef.familienaam|'></dd>
+			<dd th:text='${werknemer.email}'></dd>
+		<dt th:if='${werknemer.heeftChef()}'>Chef</dt>
+			<dd th:if='${werknemer.chef != null}' th:text='|${werknemer.chef.voornaam} ${werknemer.chef.familienaam}|'></dd>
 		<dt>Salaris</dt>
-			<dd th:text='${{president.salaris}}'></dd>
+			<dd th:text='${{werknemer.salaris}}'></dd>
 		<dt>Jobtitel</dt>
-			<dd th:text='${president.jobtitel.naam}'></dd>
+			<dd th:text='${werknemer.jobtitel.naam}'></dd>
 		<dt>Geboorte</dt>
-			<dd th:text='${{president.geboorte}}'></dd>
+			<dd th:text='${{werknemer.geboorte}}'></dd>
 		<dt>Ondergeschikten</dt>
-			<dd th:each='ondergeschikte:${president.ondergeschikten}' th:text='|${ondergeschikte.voornaam} ${ondergeschikte.familienaam}|'></dd>
+			<dd th:each='ondergeschikte:${werknemer.ondergeschikten}' th:text='|${ondergeschikte.voornaam} ${ondergeschikte.familienaam}|'></dd>
 	</dl>	
 </body>
 </html>

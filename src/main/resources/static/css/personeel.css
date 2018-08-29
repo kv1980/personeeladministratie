@@ -55,9 +55,15 @@ body {
 	background-color: #6495ED;
 	color: white;
 }
+
 #login input[type=submit]:hover {
 	background-color: #191970;
 	color: white;
+}
+
+#werknemersdata dd {
+	color: #191970;
+	font-weight: bold;
 }
 
 .fout {
