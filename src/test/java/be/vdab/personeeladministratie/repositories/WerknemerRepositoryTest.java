@@ -70,7 +70,7 @@ public class WerknemerRepositoryTest extends AbstractTransactionalJUnit4SpringCo
 	
 	@Test
 	public void repository_vindt_de_juiste_werknemers_met_een_opgegeven_jobtitel() {
-		List<Werknemer> managerLijst = repository.findByJobtitelNaam("Manager");
+		List<Werknemer> managerLijst = repository.findByJobtitelNaam("testjob");
 		assertEquals(2,managerLijst.size());
 		List<Werknemer> presidentLijst = repository.findByJobtitelNaam("President");
 		assertEquals(1,presidentLijst.size());

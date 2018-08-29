@@ -4,15 +4,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.ConstraintViolationException;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import be.vdab.personeeladministratie.entities.Werknemer;
 import be.vdab.personeeladministratie.exceptions.PresidentNietGevondenException;
-import be.vdab.personeeladministratie.exceptions.RijksregisternrNietUniekException;
 import be.vdab.personeeladministratie.exceptions.WerknemerNietGevondenException;
 import be.vdab.personeeladministratie.repositories.WerknemerRepository;
 

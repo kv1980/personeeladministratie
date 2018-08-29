@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
@@ -67,7 +69,7 @@ public class WerknemerServiceImplIntergrationTest extends AbstractTransactionalJ
 	}
 	
 	@Test
-	public void rijksregisternr_kan_worden_gewijzigd() {
+	public void rijksregisternr_kan_met_een_correct_rijksregisternr_worden_gewijzigd() {
 		long id = idVanTestOndergeschikte1();
 		Werknemer werknemer = service.vindWerknemer(id);
 		long origineelRijksregisternr = werknemer.getRijksregisternr();
@@ -78,5 +80,37 @@ public class WerknemerServiceImplIntergrationTest extends AbstractTransactionalJ
 				"select rijksregisternr from werknemers where id=?",Long.class,id);
 		assertEquals(nieuwRijksregisternr,gewijzigdRijksregisternr);
 		assertNotEquals(origineelRijksregisternr,gewijzigdRijksregisternr);
+	}
+	
+	@Test (expected = ConstraintViolationException.class)
+	public void rijksregisternr_mag_met_een_foutief_rijksregisternr_niet_worden_gewijzigd() {
+		long id = idVanTestOndergeschikte1();
+		Werknemer werknemer = service.vindWerknemer(id);
+		long nieuwRijksregisternr = 81010100129L;
+		service.wijzigRijksregisternr(werknemer, nieuwRijksregisternr);
+		manager.flush();
+	}
+	
+	@Test (expected = PersistenceException.class)
+	public void rijksregisternr_mag_met_een_reeds_bestaaand_rijksregisternr_niet_worden_gewijzigd() {
+		long id = idVanTestOndergeschikte1();
+		Werknemer werknemer = service.vindWerknemer(id);
+		long nieuwRijksregisternr = 90010100123L;
+			service.wijzigRijksregisternr(werknemer, nieuwRijksregisternr);
+			manager.flush();
+	}
+	
+	@Test
+	public void alle_werknemers_met_eenzelfde_jobtitel_worden_gevonden() {
+		List<Werknemer> werknemerSet = service.vindWerknemersMetJobtitel("testjob");
+		int aantalWerknemersMetTestjob = super.jdbcTemplate.queryForObject(
+				"select count(*) "+
+				"from werknemers "+
+				"inner join jobtitels on werknemers.jobtitelid = jobtitels.id "+
+				"where jobtitels.naam=?",Integer.class,"testjob");
+		assertEquals(aantalWerknemersMetTestjob,werknemerSet.size());
+		werknemerSet.stream()
+					.map(werknemer -> werknemer.getJobtitel().getNaam())
+					.forEach(jobtitelnaam -> assertEquals("testjob",jobtitelnaam));
 	}
 }
