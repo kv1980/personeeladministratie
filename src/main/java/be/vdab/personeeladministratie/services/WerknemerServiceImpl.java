@@ -4,12 +4,16 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import be.vdab.personeeladministratie.entities.Werknemer;
 import be.vdab.personeeladministratie.exceptions.PresidentNietGevondenException;
+import be.vdab.personeeladministratie.exceptions.RijksregisternrNietUniekException;
+import be.vdab.personeeladministratie.exceptions.WerknemerNietGevondenException;
 import be.vdab.personeeladministratie.repositories.WerknemerRepository;
 
 @Service
@@ -32,17 +36,23 @@ class WerknemerServiceImpl implements WerknemerService {
 	}
 		
 	@Override
-	public Optional<Werknemer> vindWerknemer(long id) {
-		return werknemerRepository.findById(id);
+	public Werknemer vindWerknemer(long id) {
+		Optional<Werknemer> optioneleWerknemer = werknemerRepository.findById(id);
+		if (optioneleWerknemer.isPresent()) {
+			return optioneleWerknemer.get();
+		}
+		throw new WerknemerNietGevondenException();
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED)
 	public void verhoogSalaris(Werknemer werknemer,BigDecimal bedrag) {
 		werknemer.verhoogSalaris(bedrag);
 		werknemerRepository.save(werknemer);
 	}
 
 	@Override
+	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED)
 	public void wijzigRijksregisternr(Werknemer werknemer, Long nieuwRijksregisternr) {
 		werknemer.wijzigRijksregisternr(nieuwRijksregisternr);
 		werknemerRepository.save(werknemer);
