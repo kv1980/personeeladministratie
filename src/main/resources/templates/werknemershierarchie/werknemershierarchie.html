@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang='nl' xmlns:th='http://www.thymeleaf.org'>
+<head th:replace="fragments::head(title='Werknemershi&euml;rarchie')"></head>
+<body>
+	<h1 th:text='|${president.voornaam} ${president.familienaam}|'></h1>
+	<dl>
+		<dt>Voornaam</dt><dd th:text='${president.voornaam}'></dd>
+		<dt>Familienaam</dt><dd th:text='${president.familienaam}'></dd>
+		<dt>Email adres</dt><dd th:text='${president.email}'></dd>
+		<dt>Salaris</dt><dd th:text='${{president.salaris}}'></dd>
+		<dt>Jobtitel</dt><dd th:text='${president.jobtitel.naam}'></dd>
+		<dt>Geboorte</dt><dd th:text='${{president.geboorte}}'></dd>
+		<dt>Ondergeschikten</dt><dd th:text='${{president.geboorte}}'></dd>
+	</dl>
+</body>
+</html>

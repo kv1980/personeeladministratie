@@ -1,27 +1,35 @@
 package be.vdab.personeeladministratie.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import be.vdab.personeeladministratie.entities.Werknemer;
+import be.vdab.personeeladministratie.exceptions.PresidentNietGevondenException;
 import be.vdab.personeeladministratie.services.WerknemerService;
 
 @Controller
 @RequestMapping("werknemershierarchie")
 public class WerknemershierarchieController {
-	private static final String VIEW = "werknemershierarchie/werknemershierarchie";
-	WerknemerService werknemerservice;
+	private static final String VIEW_WERKNEMERSHIERARCHIE = "werknemershierarchie/werknemershierarchie";
+	private static final String VIEW_HOMEPAGE = "index";
+	WerknemerService werknemerService;
 
-	public WerknemershierarchieController(WerknemerService werknemerservice) {
-		this.werknemerservice = werknemerservice;
+	public WerknemershierarchieController(WerknemerService werknemerService) {
+		this.werknemerService = werknemerService;
 	}
 
-/*	@GetMapping()
-	ModelAndView read() {
-		Werknemer president = werknemersservice.toonPresident();
-		if (filiaal.isPresent()) {
-			return new ModelAndView(FILIAAL_VIEW).addObject(filiaal.get());
+	@GetMapping()
+	ModelAndView toonPresident() {
+		System.out.println("------------start van toonPresident");
+		try {
+			Werknemer president = werknemerService.vindPresident();
+			System.out.println("------------------------------"+president.getEmail());
+			return new ModelAndView(VIEW_WERKNEMERSHIERARCHIE,"president",president);
+			
+		} catch (PresidentNietGevondenException ex) {
+			return new ModelAndView(VIEW_HOMEPAGE,"foutboodschap",ex.getMessage());
 		}
-		redirectAttributes.addAttribute("fout", "Foutboodschap: filiaal werd niet gevonden.");
-		return new ModelAndView(REDIRECT_FILIAAL_NIET_GEVONDEN);
-	}*/
+	}
 }
