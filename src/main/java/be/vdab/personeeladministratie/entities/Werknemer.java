@@ -81,12 +81,12 @@ public class Werknemer {
 	protected Werknemer() {
 	}
 
-	public Werknemer(@NotBlank @SafeHtml String familienaam, @NotBlank @SafeHtml String voornaam,
-			@NotBlank @Email String email, @NotNull @Min(1) @Digits(integer = 10, fraction = 2) BigDecimal salaris,
-			@NotBlank @SafeHtml String paswoord, @NotNull LocalDate geboorte, @NotNull long rijksregisternr) {
+	public Werknemer(String familienaam, String voornaam, String email, Jobtitel jobtitel, BigDecimal salaris,
+					String paswoord, LocalDate geboorte, long rijksregisternr) {
 		this.familienaam = familienaam;
 		this.voornaam = voornaam;
 		this.email = email;
+		this.jobtitel = jobtitel;
 		this.salaris = salaris;
 		this.paswoord = paswoord;
 		this.geboorte = geboorte;
@@ -111,6 +111,10 @@ public class Werknemer {
 
 	public Werknemer getChef() {
 		return chef;
+	}
+	
+	public Jobtitel getJobtitel() {
+		return jobtitel;
 	}
 
 	public BigDecimal getSalaris() {

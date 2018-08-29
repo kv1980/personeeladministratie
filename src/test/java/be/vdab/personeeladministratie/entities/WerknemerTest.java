@@ -20,7 +20,7 @@ public class WerknemerTest {
 	
 	@Before
 	public void before() {
-		werknemer=new Werknemer("test","test","test@vdab.be",BigDecimal.valueOf(2000),"test",LocalDate.of(1980,01,01),66080100153L);		
+		werknemer=new Werknemer("test","test","test@vdab.be",new Jobtitel("werknemer"),BigDecimal.valueOf(2000),"test",LocalDate.of(1980,01,01),66080100153L);		
 	}
 	
 	@Test

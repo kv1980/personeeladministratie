@@ -1,4 +1,4 @@
 insert into jobtitels(naam,versie)
-VALUES ('voorzitter',0),
-		('manager',0),
-		('javadeveloper',0);
+VALUES ('President',0),
+		('Manager',0),
+		('Javadeveloper',0);

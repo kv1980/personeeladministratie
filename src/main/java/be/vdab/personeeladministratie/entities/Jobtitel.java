@@ -22,6 +22,12 @@ public class Jobtitel {
 	@Version
 	private long versie;
 	
+	protected Jobtitel() {
+	}
+	
+	public Jobtitel(String naam) {
+		this.naam = naam;
+	}
 	public long getId() {
 		return id;
 	}
