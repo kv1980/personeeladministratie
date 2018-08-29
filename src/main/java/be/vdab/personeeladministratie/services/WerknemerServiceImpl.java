@@ -37,15 +37,19 @@ class WerknemerServiceImpl implements WerknemerService {
 	}
 
 	@Override
-	public void verhoogSalaris(BigDecimal bedrag) {
+	public void verhoogSalaris(Werknemer werknemer,BigDecimal bedrag) {
+		werknemer.verhoogSalaris(bedrag);
+		werknemerRepository.save(werknemer);
 	}
 
 	@Override
-	public void wijzigRijksregisternr(Long nieuwRijksregisternr) {
+	public void wijzigRijksregisternr(Werknemer werknemer, Long nieuwRijksregisternr) {
+		werknemer.wijzigRijksregisternr(nieuwRijksregisternr);
+		werknemerRepository.save(werknemer);
 	}
 
 	@Override
 	public List<Werknemer> vindWerknemersMetJobtitel(String naam) {
-		return null;
+		return werknemerRepository.findByJobtitelNaam(naam);
 	}
 }

@@ -81,16 +81,19 @@ public class Werknemer {
 	protected Werknemer() {
 	}
 
-	public Werknemer(String familienaam, String voornaam, String email, Jobtitel jobtitel, BigDecimal salaris,
-					String paswoord, LocalDate geboorte, long rijksregisternr) {
+	public Werknemer(String familienaam,String voornaam,String email, Werknemer chef, Jobtitel jobtitel,
+					BigDecimal salaris,String paswoord,LocalDate geboorte,long rijksregisternr,
+					Set<Werknemer> ondergeschikten) {
 		this.familienaam = familienaam;
 		this.voornaam = voornaam;
 		this.email = email;
+		this.chef = chef;
 		this.jobtitel = jobtitel;
 		this.salaris = salaris;
 		this.paswoord = paswoord;
 		this.geboorte = geboorte;
 		this.rijksregisternr = rijksregisternr;
+		this.ondergeschikten = ondergeschikten;
 	}
 
 	public long getId() {
@@ -139,6 +142,14 @@ public class Werknemer {
 
 	public Set<Werknemer> getOndergeschikten() {
 		return Collections.unmodifiableSet(ondergeschikten);
+	}
+	
+	public boolean heeftChef() {
+		return chef != null;
+	}
+	
+	public boolean heeftOndergeschikten() {
+		return !ondergeschikten.isEmpty();
 	}
 	
 	public void wijzigRijksregisternr(long rijksregisternr) {

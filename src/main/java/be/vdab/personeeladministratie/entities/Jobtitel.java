@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
-@Table(name="jobtitels")
+@Table(name = "jobtitels")
 public class Jobtitel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +21,22 @@ public class Jobtitel {
 	private String naam;
 	@Version
 	private long versie;
-	
+
 	protected Jobtitel() {
 	}
-	
+
 	public Jobtitel(String naam) {
 		this.naam = naam;
 	}
+
 	public long getId() {
 		return id;
 	}
+
 	public String getNaam() {
 		return naam;
 	}
+
 	public long getVersie() {
 		return versie;
 	}

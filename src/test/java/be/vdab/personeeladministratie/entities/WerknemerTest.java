@@ -1,43 +1,52 @@
 package be.vdab.personeeladministratie.entities;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@Import(Werknemer.class)
 public class WerknemerTest {
-	@Autowired
-	Werknemer werknemer;
+	Werknemer chef;
+	Werknemer ondergeschikte;
 	
 	@Before
 	public void before() {
-		werknemer=new Werknemer("test","test","test@vdab.be",new Jobtitel("werknemer"),BigDecimal.valueOf(2000),"test",LocalDate.of(1980,01,01),66080100153L);		
+		Set<Werknemer> ondergeschikten = new HashSet<>();
+		chef=new Werknemer("testChef","test","test@vdab.be",null,new Jobtitel("werknemer"),BigDecimal.valueOf(2000),"test",
+							LocalDate.of(1980,01,01),66080100153L,ondergeschikten);	
+		ondergeschikte=new Werknemer("testOndergeschikte","test","test@vdab.be",chef,new Jobtitel("werknemer"),BigDecimal.valueOf(2000),"test",
+									LocalDate.of(1980,01,01),66080100153L,new HashSet<>());
+		ondergeschikten.add(ondergeschikte);
 	}
 	
 	@Test
-	public void rijksregisternummer_kan_worden_gewijzigd_met_correct_nummer() {
-		werknemer.wijzigRijksregisternr(80061327389L);
-		assertEquals(80061327389L,werknemer.getRijksregisternr());
+	public void een_werknemer_heeft_mogelijks_een_chef() {
+		assertFalse(chef.heeftChef());
+		assertTrue(ondergeschikte.heeftChef());
 	}
 	
 	@Test
-	public void salaris_wordt_correct_verhoogd() {
-		werknemer.verhoogSalaris(BigDecimal.valueOf(100));
-		assertEquals(BigDecimal.valueOf(2100),werknemer.getSalaris());
+	public void een_werknemer_heeft_mogelijks_ondergeschikten() {
+		assertTrue(chef.heeftOndergeschikten());
+		assertFalse(ondergeschikte.heeftOndergeschikten());
 	}
 	
 	@Test
-	public void rijksregisternummer_is_goed_getest() {
-		werknemer.wijzigRijksregisternr(80061327389L);
-		assertEquals(80061327389L,werknemer.getRijksregisternr());
+	public void rijksregisternummer_kan_worden_gewijzigd() {
+		chef.wijzigRijksregisternr(80061327389L);
+		assertEquals(80061327389L,chef.getRijksregisternr());
+	}
+	
+	@Test
+	public void salaris_kan_met_een_bedrag_worden_verhoogd() {
+		chef.verhoogSalaris(BigDecimal.valueOf(100));
+		assertEquals(BigDecimal.valueOf(2100),chef.getSalaris());
 	}
 }

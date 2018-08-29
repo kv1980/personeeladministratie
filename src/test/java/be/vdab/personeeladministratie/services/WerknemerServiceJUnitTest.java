@@ -1,12 +1,13 @@
 package be.vdab.personeeladministratie.services;
 
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Before;
@@ -29,7 +30,8 @@ public class WerknemerServiceJUnitTest {
 	@Before
 	public void before() {
 		service = new WerknemerServiceImpl(repository);
-		president = new Werknemer("familienaam", "voornaam", "email", new Jobtitel("President"), BigDecimal.valueOf(2000),"test",LocalDate.of(1980,01,01),66080100153L);
+		president = new Werknemer("familienaam", "voornaam", "email", null, new Jobtitel("President"), BigDecimal.valueOf(2000),"test",
+								  LocalDate.of(1980,01,01),66080100153L, new HashSet<>());
 		List<Werknemer> lijstMetPresidenten = new ArrayList<>();
 		lijstMetPresidenten.add(president);
 		when(repository.findByJobtitelNaam("President")).thenReturn(lijstMetPresidenten);
