@@ -26,7 +26,11 @@ public class WerknemershierarchieController {
 		try {
 			Werknemer president = werknemerService.vindPresident();
 			System.out.println("------------------------------"+president.getEmail());
-			return new ModelAndView(VIEW_WERKNEMERSHIERARCHIE,"president",president);
+			ModelAndView modelAndView = new ModelAndView(VIEW_WERKNEMERSHIERARCHIE,"president",president);
+			modelAndView.addObject("ondergeschikten",president.getOndergeschikten());
+			System.out.println("--------------------"+president.getOndergeschikten().size());
+			return modelAndView;
+			
 			
 		} catch (PresidentNietGevondenException ex) {
 			return new ModelAndView(VIEW_HOMEPAGE,"foutboodschap",ex.getMessage());

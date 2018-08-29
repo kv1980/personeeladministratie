@@ -4,13 +4,22 @@
 <body>
 	<h1 th:text='|${president.voornaam} ${president.familienaam}|'></h1>
 	<dl>
-		<dt>Voornaam</dt><dd th:text='${president.voornaam}'></dd>
-		<dt>Familienaam</dt><dd th:text='${president.familienaam}'></dd>
-		<dt>Email adres</dt><dd th:text='${president.email}'></dd>
-		<dt>Salaris</dt><dd th:text='${{president.salaris}}'></dd>
-		<dt>Jobtitel</dt><dd th:text='${president.jobtitel.naam}'></dd>
-		<dt>Geboorte</dt><dd th:text='${{president.geboorte}}'></dd>
-		<dt>Ondergeschikten</dt><dd th:text='${{president.geboorte}}'></dd>
-	</dl>
+		<dt>Voornaam</dt>
+			<dd th:text='${president.voornaam}'></dd>
+		<dt>Familienaam</dt>
+			<dd th:text='${president.familienaam}'></dd>
+		<dt>Email adres</dt>
+			<dd th:text='${president.email}'></dd>
+		<dt th:if='${president.chef != null}'>Chef</dt>
+			<dd th:if='${president.chef != null}' th:text='|${president.chef.voornaam} ${president.chef.familienaam|'></dd>
+		<dt>Salaris</dt>
+			<dd th:text='${{president.salaris}}'></dd>
+		<dt>Jobtitel</dt>
+			<dd th:text='${president.jobtitel.naam}'></dd>
+		<dt>Geboorte</dt>
+			<dd th:text='${{president.geboorte}}'></dd>
+		<dt>Ondergeschikten</dt>
+			<dd th:each='ondergeschikte:${president.ondergeschikten}' th:text='|${ondergeschikte.voornaam} ${ondergeschikte.familienaam}|'></dd>
+	</dl>	
 </body>
 </html>
