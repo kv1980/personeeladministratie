@@ -21,5 +21,6 @@
 		</ul>
 		<span th:if='${jobtitel.werknemers.isEmpty()}'>Er werden geen werknemers met deze jobtitel gevonden.</span>
 	</div>
+	<div th:if='${param.fout !=null}' th:text='${param.fout}' class='fout'></div>
 </body>
 </html>
