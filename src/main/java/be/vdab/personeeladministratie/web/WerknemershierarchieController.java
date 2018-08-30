@@ -3,10 +3,12 @@ package be.vdab.personeeladministratie.web;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import javax.persistence.PersistenceException;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,28 +67,55 @@ public class WerknemershierarchieController {
 	}
 	
 	@PostMapping("{werknemer}/opslag")
-	ModelAndView geefOpslag(@PathVariable(name="werknemer") Optional<Werknemer> optioneleWerknemer, @Valid OpslagForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-		if (!optioneleWerknemer.isPresent()) {
+	ModelAndView geefOpslag(@PathVariable Optional<Werknemer> werknemer, @Valid OpslagForm form, 
+							BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (!werknemer.isPresent()) {
 			redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
 			return new ModelAndView(REDIRECT_BIJ_FOUTEN);
 		}
-		Werknemer werknemer = optioneleWerknemer.get();
 		if (bindingResult.hasErrors()) {
-			return new ModelAndView(VIEW_OPSLAG).addObject(werknemer);
+			return new ModelAndView(VIEW_OPSLAG).addObject(werknemer.get());
 		}
 		BigDecimal bedragOpslag = form.getBedragOpslag();
-		werknemerService.verhoogSalaris(werknemer, bedragOpslag);
-		redirectAttributes.addAttribute("id",werknemer.getId());
+		werknemerService.verhoogSalaris(werknemer.get(), bedragOpslag);
+		redirectAttributes.addAttribute("id",werknemer.get().getId());
 		return new ModelAndView(REDIRECT_NAAR_WERKNEMER);
 	}
 	
 	@GetMapping("{werknemer}/rijksregisternummer")
 	ModelAndView toonRijksregisternummerPagina(@PathVariable Optional<Werknemer> werknemer,RedirectAttributes redirectAttributes) {
-		if (werknemer.isPresent()) {
+		if (!werknemer.isPresent()) {
 			redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
 			return new ModelAndView(REDIRECT_BIJ_FOUTEN);
 		}
-		return new ModelAndView(VIEW_RIJKSREGISTERNUMMER).addObject(werknemer.get());
-		
+		RijksregisternrForm form = new RijksregisternrForm();
+		form.setGeboortedatum(werknemer.get().getGeboorte());
+		form.setRijksregisternr(werknemer.get().getRijksregisternr());
+		return new ModelAndView(VIEW_RIJKSREGISTERNUMMER)
+						.addObject(werknemer.get())
+						.addObject(form);	
+	}
+	
+	@PostMapping("{werknemer}/rijksregisternummer")
+	ModelAndView wijzigRijksregisternr(@PathVariable Optional<Werknemer> werknemer,@Valid RijksregisternrForm form, BindingResult bindingResult, 
+										RedirectAttributes redirectAttributes) {
+		System.out.println("KIEKEBOE");
+		if (!werknemer.isPresent()) {
+			redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
+			return new ModelAndView(REDIRECT_BIJ_FOUTEN);
+		}
+		if (bindingResult.hasErrors()) {
+			System.out.println("----------hij heeft bindingResults");
+			return new ModelAndView(VIEW_RIJKSREGISTERNUMMER).addObject(werknemer.get());
+		}
+		try {
+			Long nieuwRijksregisternr = form.getRijksregisternr();
+			werknemerService.wijzigRijksregisternr(werknemer.get(), nieuwRijksregisternr);
+			redirectAttributes.addAttribute("id",werknemer.get().getId());
+			return new ModelAndView(REDIRECT_NAAR_WERKNEMER);
+		} catch (PersistenceException ex) {
+			bindingResult.addError(new FieldError("form","rijksregisternr","behoort reeds toe aan andere werknemer"));
+			return new ModelAndView(VIEW_RIJKSREGISTERNUMMER).addObject(werknemer.get());
+		}
 	}
 }

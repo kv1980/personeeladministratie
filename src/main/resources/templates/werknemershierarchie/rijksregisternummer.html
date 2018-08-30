@@ -5,11 +5,15 @@
 	<h1 th:text='|Rijksregisternummer van ${werknemer.voornaam} ${werknemer.familienaam}|'></h1>
 	<form th:action='@{/werknemershierarchie/{id}/rijksregisternummer (id=${werknemer.id})}' th:object='${rijksregisternrForm}' method='post'>
 		<label>
+			<input type="hidden" th:field='*{geboortedatum}'>
+		</label>
+		<label style="margin-left:0;">
 			Rijksregisternummer:
 			<span th:if="${#fields.hasErrors('rijksregisternr')}" th:errors='*{rijksregisternr}'></span>
+			<span th:if='${#fields.hasGlobalErrors()}' th:each='err : ${#fields.globalErrors()}' th:text='${err}'></span>
 			<input th:field='*{rijksregisternr}' autofocus>
 		</label>
-		<input class='submitKnop' type='submit' value='Opslag'>
+		<input class='submitKnop' type='submit' value='Opslaan'>
 	</form>
 </body>
 </html>
