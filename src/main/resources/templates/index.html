@@ -7,5 +7,6 @@
 		<li><a th:href='@{/werknemershierarchie}'>Werknemershi&euml;rarchie</a></li>
 		<li><a th:href='@{/jobtitels}'>Jobtitels</a></li>
 	</ul>
+	<div th:if='${param.fout !=null}' th:text='${param.fout}' class='fout'></div> 	
 </body>
 </html>

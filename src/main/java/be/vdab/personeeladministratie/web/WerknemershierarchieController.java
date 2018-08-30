@@ -46,47 +46,47 @@ public class WerknemershierarchieController {
 	
 	@GetMapping("{werknemer}")
 	ModelAndView toonWerknemer(@PathVariable Optional<Werknemer> werknemer,RedirectAttributes redirectAttributes) {
-		if (werknemer.isPresent()) {
-			return new ModelAndView(VIEW_WERKNEMER).addObject(werknemer.get());
+		if (!werknemer.isPresent()) {
+			redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
+			return new ModelAndView(REDIRECT_BIJ_FOUTEN);
 		}
-		redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
-		return new ModelAndView(REDIRECT_BIJ_FOUTEN);
+		return new ModelAndView(VIEW_WERKNEMER).addObject(werknemer.get());
 	}
 	
 	@GetMapping("{werknemer}/opslag")
 	ModelAndView toonOpslag(@PathVariable Optional<Werknemer> werknemer,RedirectAttributes redirectAttributes) {
-		if (werknemer.isPresent()) {
-			return new ModelAndView(VIEW_OPSLAG)
-					.addObject(werknemer.get())
-					.addObject(new OpslagForm());
+		if (!werknemer.isPresent()) {
+			redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
+			return new ModelAndView(REDIRECT_BIJ_FOUTEN);
 		}
-		redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
-		return new ModelAndView(REDIRECT_BIJ_FOUTEN);
+		return new ModelAndView(VIEW_OPSLAG)
+				.addObject(werknemer.get())
+				.addObject(new OpslagForm());
 	}
 	
 	@PostMapping("{werknemer}/opslag")
-	ModelAndView geefOpslag(@PathVariable Optional<Werknemer> optioneleWerknemer, @Valid OpslagForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	ModelAndView geefOpslag(@PathVariable(name="werknemer") Optional<Werknemer> optioneleWerknemer, @Valid OpslagForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (!optioneleWerknemer.isPresent()) {
 			redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
 			return new ModelAndView(REDIRECT_BIJ_FOUTEN);
 		}
-		
-		if (bindingResult.hasErrors()) {
-			return new ModelAndView(VIEW_OPSLAG).addObject("Weer");
-		}
 		Werknemer werknemer = optioneleWerknemer.get();
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView(VIEW_OPSLAG).addObject(werknemer);
+		}
 		BigDecimal bedragOpslag = form.getBedragOpslag();
 		werknemerService.verhoogSalaris(werknemer, bedragOpslag);
 		redirectAttributes.addAttribute("id",werknemer.getId());
-		return REDIRECT_NAAR_WERKNEMER;
+		return new ModelAndView(REDIRECT_NAAR_WERKNEMER);
 	}
 	
 	@GetMapping("{werknemer}/rijksregisternummer")
 	ModelAndView toonRijksregisternummerPagina(@PathVariable Optional<Werknemer> werknemer,RedirectAttributes redirectAttributes) {
 		if (werknemer.isPresent()) {
-			return new ModelAndView(VIEW_RIJKSREGISTERNUMMER).addObject(werknemer.get());
+			redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
+			return new ModelAndView(REDIRECT_BIJ_FOUTEN);
 		}
-		redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
-		return new ModelAndView(REDIRECT_BIJ_FOUTEN);
+		return new ModelAndView(VIEW_RIJKSREGISTERNUMMER).addObject(werknemer.get());
+		
 	}
 }
