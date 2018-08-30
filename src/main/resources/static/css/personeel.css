@@ -8,17 +8,17 @@ body {
     color: #474747;
 }
 
-#menu {
+#menu, #linksNaarOpslagEnRijksregisternummer {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-#menu li a {
+#menu li a, #linksNaarOpslagEnRijksregisternummer li a, .submitKnop {
 	background-color: #6495ED;
 	display: block;
 	height: 2em;
-	width: 15em;
+	width: 12em;
 	margin: 1em;
 	padding-top:0.75em;
 	text-decoration: none;
@@ -26,7 +26,17 @@ body {
 	color: white;
 }
 
-#menu li a:hover {
+.submitKnop {
+	height: 3em;
+	width: 9em;
+	padding-bottom:0.75em;
+	margin-left: 10px;
+	margin-top: 30px;
+	border: none;
+	font-size: 16px;
+}
+
+#menu li a:hover, .submitKnop:hover  {
 	background-color:  #191970;
 }
 
@@ -60,13 +70,32 @@ body {
 	color: white;
 }
 
-#werknemersdata {
+.werknemersdata {
 	margin-left: 10px;
 }
 
-#werknemersdata dd {
+.werknemersdata dt {
+	margin-top: 0.5em;
+}
+
+.werknemersdata dd {
 	color: #191970;
 	font-weight: bold;
+	margin-left: 0;
+}
+
+.werknemersdata dd img {
+	height: 204px;
+	width: 204px;
+}
+
+form label {
+	margin-left: 10px;
+}
+
+form label input {
+	margin-left: 10px;
+	display: block;
 }
 
 .fout {
@@ -79,3 +108,4 @@ body {
 	font-weight: bold;
 	text-align: center;
 }
+

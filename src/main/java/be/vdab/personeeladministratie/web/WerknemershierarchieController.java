@@ -17,6 +17,8 @@ import be.vdab.personeeladministratie.services.WerknemerService;
 @RequestMapping("werknemershierarchie")
 public class WerknemershierarchieController {
 	private static final String VIEW_WERKNEMER = "werknemershierarchie/werknemershierarchie";
+	private static final String VIEW_OPSLAG = "werknemershierarchie/opslag";
+	private static final String VIEW_RIJKSREGISTERNUMMER = "werknemershierarchie/rijksregisternummer";
 	private static final String REDIRECT_BIJ_START = "redirect:/werknemershierarchie/{id}";
 	private static final String REDIRECT_BIJ_FOUTEN = "redirect:/"; 
 	WerknemerService werknemerService;
@@ -41,6 +43,26 @@ public class WerknemershierarchieController {
 	ModelAndView toonWerknemer(@PathVariable Optional<Werknemer> werknemer,RedirectAttributes redirectAttributes) {
 		if (werknemer.isPresent()) {
 			return new ModelAndView(VIEW_WERKNEMER).addObject(werknemer.get());
+		}
+		redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
+		return new ModelAndView(REDIRECT_BIJ_FOUTEN);
+	}
+	
+	@GetMapping("{werknemer}/opslag")
+	ModelAndView toonOpslagPagina(@PathVariable Optional<Werknemer> werknemer,RedirectAttributes redirectAttributes) {
+		if (werknemer.isPresent()) {
+			return new ModelAndView(VIEW_OPSLAG)
+					.addObject(werknemer.get())
+					.addObject(new OpslagForm());
+		}
+		redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
+		return new ModelAndView(REDIRECT_BIJ_FOUTEN);
+	}
+	
+	@GetMapping("{werknemer}/rijksregisternummer")
+	ModelAndView toonRijksregisternummerPagina(@PathVariable Optional<Werknemer> werknemer,RedirectAttributes redirectAttributes) {
+		if (werknemer.isPresent()) {
+			return new ModelAndView(VIEW_RIJKSREGISTERNUMMER).addObject(werknemer.get());
 		}
 		redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
 		return new ModelAndView(REDIRECT_BIJ_FOUTEN);

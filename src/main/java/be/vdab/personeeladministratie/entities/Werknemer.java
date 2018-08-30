@@ -56,7 +56,7 @@ public class Werknemer {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "jobtitelid")
 	private Jobtitel jobtitel;
-	@NumberFormat(style = Style.CURRENCY)
+	@NumberFormat(pattern = "#,##0.00") 
 	@NotNull
 	@Min(1)
 	@Digits(integer = 10, fraction = 2)

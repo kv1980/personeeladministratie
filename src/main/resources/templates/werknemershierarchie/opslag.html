@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang='nl' xmlns:th='http://www.thymeleaf.org'>
+<head th:replace="fragments::head(title='Opslag werknemer')"></head>
+<body>
+	<h1 th:text='|Opslag voor ${werknemer.voornaam} ${werknemer.familienaam}|'></h1>
+	<dl class="werknemersdata">
+		<dt>Huidig Salaris</dt><dd th:text='${{werknemer.salaris}}'></dd>
+	</dl>
+	<form th:action='@{/werknemershierarchie}' th:object='${opslagForm}' method='post'>
+		<label>
+			Bedrag:
+			<span th:if="${#fields.hasErrors('bedragOpslag')}" th:errors='*{bedragOpslag}'></span>
+			<input th:field='*{bedragOpslag}' autofocus>
+		</label>
+		<input class='submitKnop' type='submit' value='Opslag'>
+	</form>
+</body>
+</html>
