@@ -13,18 +13,18 @@ input {
 	font-size: 16px;
 }
 
-#menu, #linksNaarOpslagEnRijksregisternummer {
+#menu, #linksNaarOpslagEnRijksregisternummer, #linksNaarJobtitels{
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-#menu li a, #linksNaarOpslagEnRijksregisternummer li a, .submitKnop {
+#menu li a, #linksNaarOpslagEnRijksregisternummer li a, .submitKnop, #linksNaarJobtitels li a {
 	background-color: #6495ED;
 	display: block;
 	height: 2em;
-	width: 12em;
-	margin: 1em;
+	width: 11em;
+	margin: 0.5em;
 	padding-top:0.75em;
 	text-decoration: none;
 	text-align: center;
@@ -41,7 +41,7 @@ input {
 	font-size: 16px;
 }
 
-#menu li a:hover, .submitKnop:hover  {
+#menu li a:hover, .submitKnop:hover, #linksNaarJobtitels li a:hover {
 	background-color:  #191970;
 }
 
@@ -105,6 +105,15 @@ form label input {
 form label span {
 	color: red;
 	font-weight: bold;
+}
+
+#linksNaarJobtitels {
+	display:block;
+	width:100%;
+}
+
+#linksNaarJobtitels li {
+	display: inline-block;
 }
 
 .fout {

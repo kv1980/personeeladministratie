@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang='nl' xmlns:th='http://www.thymeleaf.org'>
+<head th:replace="fragments::head(title='jobtitels')"></head>
+<body>
+	<h1 th:text='Jobtitels'></h1>
+	<ul id=linksNaarJobtitels>
+		<li th:each='jobtitel:${jobtitels}'>
+			<a th:href='@{/jobtitels/{id} (id=${jobtitel.id})}'>
+				<span th:text='${jobtitel.naam}'></span>
+			</a>
+		</li>	
+	</ul>
+	<h2 th:text='${jobtitelnaam}'></h2>
+	<ul th:if='${!werknemers.isEmpty()}'>
+		<li th:each='werknemer:${werknemers}'>
+			<a th:href='@{/werknemershierarchie/{id} (id=${werknemer.id})}'>
+				<span th:text='|${werknemer.voornaam} ${werknemer.familienaam}|'></span>
+			</a>
+		</li>
+	</ul>
+</body>
+</html>

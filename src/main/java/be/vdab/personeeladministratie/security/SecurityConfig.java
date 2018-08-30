@@ -43,7 +43,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.formLogin().loginPage("/login").and().authorizeRequests()
-						.mvcMatchers("/", "/login").permitAll()
+						.mvcMatchers("/", "/login","/jobtitels").permitAll()
 						.mvcMatchers("/**").authenticated();
 		//http.httpBasic(); // om ook niet-browser REST-clients basis authentication mogelijk te maken
 	}
