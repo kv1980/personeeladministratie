@@ -6,7 +6,7 @@
 	<dl class="werknemersdata">
 		<dt>Huidig Salaris</dt><dd th:text='${{werknemer.salaris}}'></dd>
 	</dl>
-	<form th:action='@{/werknemershierarchie}' th:object='${opslagForm}' method='post'>
+	<form th:action='@{/werknemershierarchie/{id}/opslag (id=${werknemer.id})}' th:object='${opslagForm}' method='post'>
 		<label>
 			Bedrag:
 			<span th:if="${#fields.hasErrors('bedragOpslag')}" th:errors='*{bedragOpslag}'></span>
