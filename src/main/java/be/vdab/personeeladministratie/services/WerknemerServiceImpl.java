@@ -1,8 +1,8 @@
 package be.vdab.personeeladministratie.services;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -11,27 +11,32 @@ import org.springframework.transaction.annotation.Transactional;
 import be.vdab.personeeladministratie.entities.Werknemer;
 import be.vdab.personeeladministratie.exceptions.PresidentNietGevondenException;
 import be.vdab.personeeladministratie.exceptions.WerknemerNietGevondenException;
+import be.vdab.personeeladministratie.repositories.JobtitelRepository;
 import be.vdab.personeeladministratie.repositories.WerknemerRepository;
 
 @Service
 @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
 class WerknemerServiceImpl implements WerknemerService {
 	private final WerknemerRepository werknemerRepository;
-	
-	WerknemerServiceImpl(WerknemerRepository werknemerRepository) {
+	private final JobtitelRepository jobtitelRepository;
+
+	WerknemerServiceImpl(WerknemerRepository werknemerRepository, JobtitelRepository jobtitelRepository) {
 		this.werknemerRepository = werknemerRepository;
+		this.jobtitelRepository = jobtitelRepository;
 	}
-	
+
 	@Override
 	public Werknemer vindPresident() {
-		List<Werknemer> lijstMetPresidenten = werknemerRepository.findByJobtitelNaam("President");
+		Set<Werknemer> lijstMetPresidenten = jobtitelRepository.findByNaam("President").get().getWerknemers();
+		System.out.println("--------------------------"+jobtitelRepository.findByNaam("President").isPresent());
 		if (lijstMetPresidenten.size() != 1) {
-			String fout = lijstMetPresidenten.size() == 0 ? "Er is geen president gevonden." : "Er zijn meerdere presidenten gevonden.";
+			String fout = lijstMetPresidenten.size() == 0 ? 
+					"Er is geen president gevonden." : "Er zijn meerdere presidenten gevonden.";
 			throw new PresidentNietGevondenException(fout);
 		}
-		return lijstMetPresidenten.get(0);
+		return lijstMetPresidenten.stream().findFirst().get();
 	}
-		
+
 	@Override
 	public Werknemer vindWerknemer(long id) {
 		Optional<Werknemer> optioneleWerknemer = werknemerRepository.findById(id);
@@ -43,7 +48,7 @@ class WerknemerServiceImpl implements WerknemerService {
 
 	@Override
 	@Transactional(readOnly = false, isolation = Isolation.READ_COMMITTED)
-	public void verhoogSalaris(Werknemer werknemer,BigDecimal bedrag) {
+	public void verhoogSalaris(Werknemer werknemer, BigDecimal bedrag) {
 		werknemer.verhoogSalaris(bedrag);
 		werknemerRepository.save(werknemer);
 	}
@@ -53,10 +58,5 @@ class WerknemerServiceImpl implements WerknemerService {
 	public void wijzigRijksregisternr(Werknemer werknemer, Long nieuwRijksregisternr) {
 		werknemer.wijzigRijksregisternr(nieuwRijksregisternr);
 		werknemerRepository.save(werknemer);
-	}
-
-	@Override
-	public List<Werknemer> vindWerknemersMetJobtitel(String naam) {
-		return werknemerRepository.findByJobtitelNaam(naam);
 	}
 }

@@ -13,8 +13,7 @@ import be.vdab.personeeladministratie.repositories.JobtitelRepository;
 @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
 class JobtitelServiceImpl implements JobtitelService {
 	private final JobtitelRepository jobtitelRepository;
-	
-	
+
 	JobtitelServiceImpl(JobtitelRepository jobtitelRepository) {
 		this.jobtitelRepository = jobtitelRepository;
 	}

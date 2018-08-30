@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class WerknemerTest {
-	Werknemer chef;
-	Werknemer ondergeschikte;
+	private Werknemer chef;
+	private Werknemer ondergeschikte;
 	
 	@Before
 	public void before() {

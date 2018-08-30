@@ -10,13 +10,16 @@
 			</a>
 		</li>	
 	</ul>
-	<h2 th:text='${jobtitelnaam}'></h2>
-	<ul th:if='${!werknemers.isEmpty()}'>
-		<li th:each='werknemer:${werknemers}'>
-			<a th:href='@{/werknemershierarchie/{id} (id=${werknemer.id})}'>
-				<span th:text='|${werknemer.voornaam} ${werknemer.familienaam}|'></span>
-			</a>
-		</li>
-	</ul>
+	<div th:if='${jobtitel != null}'>
+		<h2 th:text='${jobtitel.naam}'></h2>
+		<ul th:if='${!jobtitel.werknemers.isEmpty()}'>
+			<li th:each='werknemer:${jobtitel.werknemers}'>
+				<a th:href='@{/werknemershierarchie/{id} (id=${werknemer.id})}'>
+					<span th:text='|${werknemer.voornaam} ${werknemer.familienaam}|'></span>
+				</a>
+			</li>
+		</ul>
+		<span th:if='${jobtitel.werknemers.isEmpty()}'>Er werden geen werknemers met deze jobtitel gevonden.</span>
+	</div>
 </body>
 </html>

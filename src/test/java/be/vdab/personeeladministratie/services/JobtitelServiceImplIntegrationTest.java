@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import be.vdab.personeeladministratie.entities.Jobtitel;
@@ -20,18 +21,18 @@ import be.vdab.personeeladministratie.entities.Jobtitel;
 @DataJpaTest
 @Sql("/insertJobtitels.sql")
 @Import(JobtitelServiceImpl.class)
-public class JobtitelServiceImplIntegrationTest {
+public class JobtitelServiceImplIntegrationTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Autowired
 	JobtitelServiceImpl service;
-	
+
 	@Test
 	public void alle_jobtitels_worden_gevonden() {
 		List<Jobtitel> lijstJobtitels = service.vindAlleJobtitels();
-		assertEquals(4,lijstJobtitels.size());
-		String[] woorden = {"President","Manager","Javadeveloper","testjob"};
+		int aantalJobtitels = super.jdbcTemplate.queryForObject("select count(*) from jobtitels", Integer.class);
+		assertEquals(aantalJobtitels, lijstJobtitels.size());
+		String[] woorden = { "President", "Manager", "Javadeveloper", "testjob" };
 		List<String> controlelijst = Arrays.asList(woorden);
-		lijstJobtitels.stream()
-					  .map(jobtitel -> jobtitel.getNaam())
-					  .forEach(jobtitelnaam -> assertTrue(controlelijst.contains(jobtitelnaam)));
+		lijstJobtitels.stream().map(jobtitel -> jobtitel.getNaam())
+				.forEach(jobtitelnaam -> assertTrue(controlelijst.contains(jobtitelnaam)));
 	}
 }

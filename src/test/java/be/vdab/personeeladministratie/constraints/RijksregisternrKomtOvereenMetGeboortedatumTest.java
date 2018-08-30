@@ -29,8 +29,10 @@ public class RijksregisternrKomtOvereenMetGeboortedatumTest {
 	
 	@Test
 	public void niet_gevalideerd_als_rijksregisternr_en_geboortedatum_niet_overeenkomen() {
-		form.setGeboortedatum(LocalDate.of(1970,01,01));
-		form.setRijksregisternr(80010100188L);
-		assertFalse(validator.isValid(form,null));		
+		form.setRijksregisternr(70010100188L);
+		form.setGeboortedatum(LocalDate.of(1969,12,31));
+		assertFalse(validator.isValid(form,null));
+		form.setGeboortedatum(LocalDate.of(1970,01,02));
+		assertFalse(validator.isValid(form,null));
 	}
 }

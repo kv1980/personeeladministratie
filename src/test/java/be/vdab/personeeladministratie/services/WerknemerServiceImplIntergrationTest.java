@@ -99,18 +99,4 @@ public class WerknemerServiceImplIntergrationTest extends AbstractTransactionalJ
 			service.wijzigRijksregisternr(werknemer, nieuwRijksregisternr);
 			manager.flush();
 	}
-	
-	@Test
-	public void alle_werknemers_met_eenzelfde_jobtitel_worden_gevonden() {
-		List<Werknemer> werknemerSet = service.vindWerknemersMetJobtitel("testjob");
-		int aantalWerknemersMetTestjob = super.jdbcTemplate.queryForObject(
-				"select count(*) "+
-				"from werknemers "+
-				"inner join jobtitels on werknemers.jobtitelid = jobtitels.id "+
-				"where jobtitels.naam=?",Integer.class,"testjob");
-		assertEquals(aantalWerknemersMetTestjob,werknemerSet.size());
-		werknemerSet.stream()
-					.map(werknemer -> werknemer.getJobtitel().getNaam())
-					.forEach(jobtitelnaam -> assertEquals("testjob",jobtitelnaam));
-	}
 }

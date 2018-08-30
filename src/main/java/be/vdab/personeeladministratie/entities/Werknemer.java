@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
 
 import be.vdab.personeeladministratie.adapters.LocalDateAdapter;
 import be.vdab.personeeladministratie.constraints.Rijksregisternr;
@@ -56,7 +55,7 @@ public class Werknemer {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "jobtitelid")
 	private Jobtitel jobtitel;
-	@NumberFormat(pattern = "#,##0.00") 
+	@NumberFormat(pattern = "#,##0.00")
 	@NotNull
 	@Min(1)
 	@Digits(integer = 10, fraction = 2)
@@ -77,13 +76,13 @@ public class Werknemer {
 	private long versie;
 	@OneToMany(mappedBy = "chef")
 	Set<Werknemer> ondergeschikten;
-	
+
 	protected Werknemer() {
 	}
 
-	public Werknemer(String familienaam,String voornaam,String email, Werknemer chef, Jobtitel jobtitel,
-					BigDecimal salaris,String paswoord,LocalDate geboorte,long rijksregisternr,
-					Set<Werknemer> ondergeschikten) {
+	public Werknemer(String familienaam, String voornaam, String email, Werknemer chef, Jobtitel jobtitel,
+			BigDecimal salaris, String paswoord, LocalDate geboorte, long rijksregisternr,
+			Set<Werknemer> ondergeschikten) {
 		this.familienaam = familienaam;
 		this.voornaam = voornaam;
 		this.email = email;
@@ -115,7 +114,7 @@ public class Werknemer {
 	public Werknemer getChef() {
 		return chef;
 	}
-	
+
 	public Jobtitel getJobtitel() {
 		return jobtitel;
 	}
@@ -143,19 +142,19 @@ public class Werknemer {
 	public Set<Werknemer> getOndergeschikten() {
 		return Collections.unmodifiableSet(ondergeschikten);
 	}
-	
+
 	public boolean heeftChef() {
 		return chef != null;
 	}
-	
+
 	public boolean heeftOndergeschikten() {
 		return !ondergeschikten.isEmpty();
 	}
-	
+
 	public void wijzigRijksregisternr(long rijksregisternr) {
 		this.rijksregisternr = rijksregisternr;
 	}
-	
+
 	public void verhoogSalaris(BigDecimal bedrag) {
 		this.salaris = this.salaris.add(bedrag);
 	}
