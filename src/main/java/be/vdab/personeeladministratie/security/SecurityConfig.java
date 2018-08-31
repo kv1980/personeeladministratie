@@ -3,14 +3,12 @@ package be.vdab.personeeladministratie.security;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 
-//@EnableGlobalMethodSecurity(prePostEnabled = true) 
 @EnableWebSecurity
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String USERS_BY_EMAIL =
@@ -45,6 +43,5 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginPage("/login").and().authorizeRequests()
 						.mvcMatchers("/", "/login","/jobtitels","/jobtitels/**").permitAll()
 						.mvcMatchers("/**").authenticated();
-		//http.httpBasic(); // om ook niet-browser REST-clients basis authentication mogelijk te maken
 	}
 }
