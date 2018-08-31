@@ -28,7 +28,7 @@ class WerknemerServiceImpl implements WerknemerService {
 	@Override
 	public Werknemer vindPresident() {
 		Set<Werknemer> lijstMetPresidenten = jobtitelRepository.findByNaam("President").get().getWerknemers();
-		System.out.println("--------------------------"+jobtitelRepository.findByNaam("President").isPresent());
+		// alternatief was zoek de werknemer zonder chef
 		if (lijstMetPresidenten.size() != 1) {
 			String fout = lijstMetPresidenten.size() == 0 ? 
 					"Er is geen president gevonden." : "Er zijn meerdere presidenten gevonden.";

@@ -28,7 +28,7 @@ public class WerknemershierarchieController {
 	private static final String VIEW_RIJKSREGISTERNUMMER = "werknemershierarchie/rijksregisternummer";
 	private static final String REDIRECT_NAAR_WERKNEMER = "redirect:/werknemershierarchie/{id}";
 	private static final String REDIRECT_BIJ_FOUTEN = "redirect:/"; 
-	WerknemerService werknemerService;
+	private final WerknemerService werknemerService;
 
 	public WerknemershierarchieController(WerknemerService werknemerService) {
 		this.werknemerService = werknemerService;
@@ -99,13 +99,11 @@ public class WerknemershierarchieController {
 	@PostMapping("{werknemer}/rijksregisternummer")
 	ModelAndView wijzigRijksregisternr(@PathVariable Optional<Werknemer> werknemer,@Valid RijksregisternrForm form, BindingResult bindingResult, 
 										RedirectAttributes redirectAttributes) {
-		System.out.println("KIEKEBOE");
 		if (!werknemer.isPresent()) {
 			redirectAttributes.addAttribute("fout", "Foutboodschap: u heeft een niet bestaande werknemer gezocht.");
 			return new ModelAndView(REDIRECT_BIJ_FOUTEN);
 		}
 		if (bindingResult.hasErrors()) {
-			System.out.println("----------hij heeft bindingResults");
 			return new ModelAndView(VIEW_RIJKSREGISTERNUMMER).addObject(werknemer.get());
 		}
 		try {
